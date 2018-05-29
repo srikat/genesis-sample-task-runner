@@ -229,8 +229,7 @@ gulp.task('watch', () => {
 		.watch([
 			'./*.php',
 			'./lib/*.php',
-			'./lib/**/*.php',
-			'./lib/**/**/*.php'
+			'./lib/**/*.php'
 		])
 		.on('change', browserSync.reload);
 });
