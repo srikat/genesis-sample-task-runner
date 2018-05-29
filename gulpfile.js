@@ -7,23 +7,24 @@
  */
 
 // Require our dependencies.
-const autoprefixer = require("autoprefixer");
-// const browserSync = require( 'browser-sync' ).create();
-const browserSync = require("browser-sync");
-const cache = require("gulp-cached");
-const cleancss = require("gulp-clean-css");
-const cssnano = require("gulp-cssnano");
-const gulp = require("gulp");
-const minify = require("gulp-minify");
-const mqpacker = require("css-mqpacker");
-const notify = require("gulp-notify");
-const pixrem = require("gulp-pixrem");
-const plumber = require("gulp-plumber");
-const postcss = require("gulp-postcss");
-const rename = require("gulp-rename");
-const sass = require("gulp-sass");
-const sortCSSmq = require("sort-css-media-queries");
-const sourcemaps = require("gulp-sourcemaps");
+const autoprefixer = require('autoprefixer');
+const browserSync = require('browser-sync').create();
+const cleancss = require('gulp-clean-css');
+const cssnano = require('gulp-cssnano');
+const gulp = require('gulp');
+const minify = require('gulp-minify');
+const mqpacker = require('css-mqpacker');
+const notify = require('gulp-notify');
+const pixrem = require('gulp-pixrem');
+const plumber = require('gulp-plumber');
+const postcss = require('gulp-postcss');
+const rename = require('gulp-rename');
+const sass = require('gulp-sass');
+const sourcemaps = require('gulp-sourcemaps');
+
+// Project specific variables - CHANGE THESE
+const siteName = 'genesis-sample.test'; // set your siteName here
+const userName = 'sridharkatakam'; // set your Mac OS userName here
 
 /**
  * Error handling
@@ -35,14 +36,14 @@ function handleErrors() {
 
 	notify
 		.onError({
-			title: "Task Failed [<%= error.message %>]",
+			title: 'Task Failed [<%= error.message %>]',
 			message:
-				"<%= error %> - See console or enable logging in the plugin."
+				'<%= error %> - See console or enable logging in the plugin.'
 		})
 		.apply(this, args);
 
 	// Prevent the 'watch' task from stopping
-	this.emit("end");
+	this.emit('end');
 }
 
 /*************
@@ -52,9 +53,9 @@ function handleErrors() {
 /**
  * PostCSS Task Handler
  */
-gulp.task("postcss", () => {
+gulp.task('postcss', () => {
 	gulp
-		.src("./sass/style.scss")
+		.src('./sass/style.scss')
 
 		// Error handling.
 		.pipe(
@@ -70,7 +71,7 @@ gulp.task("postcss", () => {
 		.pipe(
 			sass({
 				errLogToConsole: true,
-				outputStyle: "expanded" // Options: nested, expanded, compact, compressed
+				outputStyle: 'expanded' // Options: nested, expanded, compact, compressed
 			})
 		)
 
@@ -89,13 +90,13 @@ gulp.task("postcss", () => {
 
 		// Create the source map.
 		.pipe(
-			sourcemaps.write("./", {
+			sourcemaps.write('./', {
 				includeContent: false
 			})
 		)
 
 		// Write the CSS file.
-		.pipe(gulp.dest("./"))
+		.pipe(gulp.dest('./'))
 
 		// Inject CSS into Browser.
 		.pipe(browserSync.stream());
@@ -104,9 +105,9 @@ gulp.task("postcss", () => {
 /**
  * Minify style.css
  */
-gulp.task("css:minify", ["postcss"], () => {
+gulp.task('css:minify', ['postcss'], () => {
 	gulp
-		.src("./style.css")
+		.src('./style.css')
 
 		// Error handling.
 		.pipe(
@@ -137,17 +138,17 @@ gulp.task("css:minify", ["postcss"], () => {
 		)
 
 		// Rename the file.
-		.pipe(rename("style.min.css"))
+		.pipe(rename('style.min.css'))
 
 		// Write the file.
-		.pipe(gulp.dest("./"))
+		.pipe(gulp.dest('./'))
 
 		// Inject the CSS into the browser.
 		.pipe(browserSync.stream())
 
 		.pipe(
 			notify({
-				message: "Styles are built."
+				message: 'Styles are built.'
 			})
 		);
 });
@@ -155,8 +156,8 @@ gulp.task("css:minify", ["postcss"], () => {
 /**
  * CSS Handler.
  */
-gulp.task("csshandler", ["css:minify"], () => {
-	gulp.src(["./sass/style.scss", "!./sass/_resets.scss"]);
+gulp.task('csshandler', ['css:minify'], () => {
+	gulp.src(['./sass/style.scss', '!./sass/_resets.scss']);
 });
 
 /*******************
@@ -166,9 +167,9 @@ gulp.task("csshandler", ["css:minify"], () => {
 /**
  * JavaScript Task Handler.
  */
-gulp.task("js", () => {
+gulp.task('js', () => {
 	gulp
-		.src(["!./js/*.min.js", "./js/*.js"])
+		.src(['!./js/*.min.js', './js/*.js'])
 
 		// Error handling.
 		.pipe(
@@ -181,13 +182,13 @@ gulp.task("js", () => {
 		.pipe(
 			minify({
 				ext: {
-					src: ".js",
-					min: ".min.js"
+					src: '.js',
+					min: '.min.js'
 				},
 				noSource: true
 			})
 		)
-		.pipe(gulp.dest("js"))
+		.pipe(gulp.dest('js'))
 
 		// Inject changes via browserSync.
 		.pipe(
@@ -198,7 +199,7 @@ gulp.task("js", () => {
 
 		.pipe(
 			notify({
-				message: "Scripts are minified."
+				message: 'Scripts are minified.'
 			})
 		);
 });
@@ -207,19 +208,16 @@ gulp.task("js", () => {
  * All Tasks Listeners
  *********************/
 
-const siteName = "genesis-sample.test"; // set your siteName here
-const userName = "sridharkatakam"; // set your Mac OS userName here
-
 /**
  * Reload browser for PHP & JS file changes and inject CSS changes.
  *
  * https://browsersync.io/docs/gulp
  */
-gulp.task("watch", () => {
+gulp.task('watch', () => {
 	browserSync.init({
 		proxy: `https://${siteName}`,
 		host: siteName,
-		open: "external",
+		open: 'external',
 		port: 8000,
 		https: {
 			key: `/Users/${userName}/.valet/Certificates/${siteName}.key`,
@@ -228,28 +226,30 @@ gulp.task("watch", () => {
 	});
 
 	// Watch Scss files. Changes are injected into the browser from within the task.
-	gulp.watch("./sass/**/*.scss", ["styles"]);
+	gulp.watch('./sass/**/*.scss', ['styles']);
+	// uncomment the following line and comment out the above if you have style.min.css loading on the frontend.
+	// gulp.watch(['./sass/**/*.scss', './style.min.css'], ['styles']);
 
 	// Watch JavaScript files. Changes are injected into the browser from within the task.
-	gulp.watch(["./js/*.js", "!./js/*.min.js"], ["scripts"]);
+	gulp.watch(['./js/*.js', '!./js/*.min.js'], ['scripts']);
 
 	// Watch PHP files and reload the browser if there is a change. Add directories if needed.
 	gulp
 		.watch([
-			"./*.php",
-			"./lib/*.php",
-			"./lib/**/*.php",
-			"./lib/**/**/*.php"
+			'./*.php',
+			'./lib/*.php',
+			'./lib/**/*.php',
+			'./lib/**/**/*.php'
 		])
-		.on("change", browserSync.reload);
+		.on('change', browserSync.reload);
 });
 
 /********************
  * Individual tasks.
  *******************/
-gulp.task("scripts", ["js"]);
-gulp.task("styles", ["css:minify"]);
+gulp.task('styles', ['css:minify']);
+gulp.task('scripts', ['js']);
 
-gulp.task("default", ["watch"], () => {
-	gulp.start("styles", "scripts");
+gulp.task('default', ['watch'], () => {
+	gulp.start('styles', 'scripts');
 });
