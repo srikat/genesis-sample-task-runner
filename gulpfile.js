@@ -153,13 +153,6 @@ gulp.task('css:minify', ['postcss'], () => {
 		);
 });
 
-/**
- * CSS Handler.
- */
-gulp.task('csshandler', ['css:minify'], () => {
-	gulp.src(['./sass/style.scss', '!./sass/_resets.scss']);
-});
-
 /*******************
  * JavaScript Tasks
  *******************/
@@ -227,10 +220,8 @@ gulp.task('watch', () => {
 
 	// Watch Scss files. Changes are injected into the browser from within the task.
 	gulp.watch('./sass/**/*.scss', ['styles']);
-	// uncomment the following line and comment out the above if you have style.min.css loading on the frontend.
-	// gulp.watch(['./sass/**/*.scss', './style.min.css'], ['styles']);
 
-	// Watch JavaScript files. Changes are injected into the browser from within the task.
+	// Watch JavaScript Files. The task tries to inject changes into the browser. If that's not possible, it reloads the browser.
 	gulp.watch(['./js/*.js', '!./js/*.min.js'], ['scripts']);
 
 	// Watch PHP files and reload the browser if there is a change. Add directories if needed.

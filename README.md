@@ -11,6 +11,8 @@ This is a Gulp workflow for automating the following tasks:
 - Generating pixel fallbacks for rem units
 - Generating source maps so browser inspector (like Chrome DevTools) shows the partial .scss file(s) from where CSS rules are originating from
 
+for [Genesis Sample](https://github.com/copyblogger/genesis-sample), a child theme of the [Genesis](https://sridharkatakam.com/go/genesis) framework.
+
 ## How to use
 
 0. Install WordPress on your localhost if you haven't already. I use [Laravel Valet](https://laravel.com/docs/5.6/valet).
@@ -38,7 +40,7 @@ If it does, adjust the path to your local SSL certificate's key and crt files.
 
 6. Run `gulp`.
 
-7. You might want to load the minified versions of genesis-sample.js and style.css on the frontend.
+7. You might want to load the minified versions of `genesis-sample.js` and `style.css` on the production site before going live.
 
 For this, edit `functions.php` and
 
