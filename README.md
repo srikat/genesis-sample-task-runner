@@ -4,8 +4,12 @@ This is a Gulp workflow for automating the following tasks:
 
 - Auto prefixing
 - Compiling Sass partials into style.css
-- Minifying unminified .js files and style.css into style.min.css
-- Automatic browser reloading using BrowserSync
+- Minifying unminified .js files and style.css
+- Automatic CSS injection and browser reloading for PHP & JS changes using BrowserSync
+- CSS optimization
+- Packing same CSS media query rules into one
+- Generating pixel fallbacks for rem units
+- Generating source maps so browser inspector (like Chrome DevTools) shows the partial .scss file(s) from where CSS rules are originating from
 
 ## How to use
 
